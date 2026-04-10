@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feras Sellamiet | دليل التوجيه المدرسي الجزائري</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af; /* أزرق تعليمي */
+            --secondary: #10b981; /* أخضر للتأكيد */
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--white);
+            padding: 1rem 5%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-transform: lowercase;
+        }
+
+        /* الصفحة الرئيسية */
+        .hero {
+            text-align: center;
+            padding: 4rem 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid #e2e8f0;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* صفحة النتائج - مخفية افتراضياً */
+        #results-page {
+            display: none;
+            padding: 2rem 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .category-badge {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .path-step {
+            border-right: 4px solid #dbeafe;
+            padding-right: 1.5rem;
+            margin-right: 0.5rem;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .path-step::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .path-step h3 {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .path-step p {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .alert-box {
+            background: #fff7ed;
+            border: 1px solid #ffedd5;
+            padding: 1.5rem;
+            border-radius: 10px;
+            color: #9a3412;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* استجابة الهاتف */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .search-btn { padding: 0 1rem; position: static; width: 100%; margin-top: 10px; }
+            .search-container { position: static; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">feras sellamiet</div>
+        <div style="font-size: 0.8rem; color: #64748b;">نظام التوجيه الجزائري</div>
+    </header>
+
+    <section id="home-page" class="hero">
+        <h1>اكتشف الطريق الدراسي إلى مهنتك في الجزائر</h1>
+        <p>أدخل اسم المهنة بالعربية، الفرنسية، أو الإنجليزية لتعرف المسار من الثانوي إلى الجامعة.</p>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="مثال: طبيب، مهندس، avocat...">
+            <button class="search-btn" onclick="performSearch()">بحث</button>
+        </div>
+
+        <div id="error-msg" style="color: red; margin-top: 10px; display: none;"></div>
+
+        <div style="margin-top: 3rem;">
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 10px;">أمثلة شائعة:</p>
+            <button onclick="fillSearch('طبيب')" style="background:none; border: 1px solid #ccc; padding: 5px 15px; border-radius: 20px; cursor:pointer;">طبيب</button>
+            <button onclick="fillSearch('مهندس إعلام آلي')" style="background:none; border: 1px solid #ccc; padding: 5px 15px; border-radius: 20px; cursor:pointer;">مهندس إعلام آلي</button>
+            <button onclick="fillSearch('محامي')" style="background:none; border: 1px solid #ccc; padding: 5px 15px; border-radius: 20px; cursor:pointer;">محامي</button>
+        </div>
+    </section>
+
+    <section id="results-page">
+        <div class="card">
+            <div id="res-category" class="category-badge"></div>
+            <h2 id="res-title" style="font-size: 2rem; margin-bottom: 0.5rem;"></h2>
+            <p id="res-subs" style="color: #64748b; margin-bottom: 2rem;"></p>
+
+            <div id="path-container">
+                </div>
+
+            <div class="alert-box">
+                <h4 style="margin-bottom: 10px;">⚠️ شروط وملاحظات جزائرية:</h4>
+                <div id="res-conditions"></div>
+            </div>
+        </div>
+        <a class="back-btn" onclick="goHome()">← العودة للبحث</a>
+    </section>
+
+    <footer>
+        <p>© 2026 Feras Sellamiet - منصة توجيه ذكية للطلاب الجزائريين</p>
+    </footer>
+
+    <script>
+        // قاعدة بيانات "الذكاء الاصطناعي الخلفي"
+        const professionsDb = [
+            {
+                ar: "طبيب", fr: "médecin", en: "doctor",
+                cat: "علوم طبية",
+                steps: [
+                    { label: "المرحلة الثانوية", val: "جذع مشترك علوم وتكنولوجيا" },
+                    { label: "البكالوريا المطلوبة", val: "علوم تجريبية (الأولوية)، رياضيات" },
+                    { label: "التخصص الجامعي", val: "دكتوراه في الطب العام (7 سنوات)" },
+                    { label: "المؤسسات", val: "كليات الطب الجزائرية" }
+                ],
+                info: "معدل القبول غالباً يتجاوز 15.00 حسب المعدل الموزون."
+            },
+            {
+                ar: "مهندس إعلام آلي", fr: "ingénieur en informatique", en: "it engineer",
+                cat: "هندسة وبرمجة",
+                steps: [
+                    { label: "المرحلة الثانوية", val: "جذع مشترك علوم وتكنولوجيا" },
+                    { label: "البكالوريا المطلوبة", val: "رياضيات، تقني رياضي، علوم تجريبية" },
+                    { label: "التخصص الجامعي", val: "إعلام آلي (ESI أو نظام LMD الجامعي)" },
+                    { label: "المؤسسات", val: "المدرسة العليا للإعلام الآلي (سيدي بلعباس أو الجزائر)" }
+                ],
+                info: "تعتبر شعبة الرياضيات هي الأفضل للوصول للمدارس العليا بـ 5 سنوات دراسة."
+            },
+            {
+                ar: "محامي", fr: "avocat", en: "lawyer",
+                cat: "حقوق وقانون",
+                steps: [
+                    { label: "المرحلة الثانوية", val: "جذع مشترك آداب" },
+                    { label: "البكالوريا المطلوبة", val: "آداب وفلسفة، لغات أجنبية" },
+                    { label: "التخصص الجامعي", val: "ليسانس حقوق + شهادة الكفاءة المهنية للمحاماة (CAPA)" },
+                    { label: "المؤسسات", val: "كليات الحقوق الجزائرية" }
+                ],
+                info: "بعد الليسانس، يجب إجراء مسابقة وطنية للالتحاق بمدرسة المحاماة."
+            }
+        ];
+
+        function fillSearch(val) {
+            document.getElementById('searchInput').value = val;
+            performSearch();
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const errorMsg = document.getElementById('error-msg');
+            
+            if(!query) return;
+
+            // محاكاة منطق البحث الذكي في الخلفية
+            const result = professionsDb.find(p => 
+                p.ar.includes(query) || 
+                p.fr.toLowerCase().includes(query) || 
+                p.en.toLowerCase().includes(query)
+            );
+
+            if(result) {
+                showResults(result);
+            } else {
+                errorMsg.innerText = "عذراً، هذا المسار غير متوفر حالياً. جرب كلمات مثل (طبيب، محامي، مهندس).";
+                errorMsg.style.display = "block";
+            }
+        }
+
+        function showResults(data) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('results-page').style.display = 'block';
+            
+            document.getElementById('res-title').innerText = data.ar;
+            document.getElementById('res-subs').innerText = `${data.fr} | ${data.en}`;
+            document.getElementById('res-category').innerText = data.cat;
+            document.getElementById('res-conditions').innerHTML = `<p>${data.info}</p>`;
+
+            let pathHtml = '';
+            data.steps.forEach(step => {
+                pathHtml += `
+                    <div class="path-step">
+                        <h3>${step.label}</h3>
+                        <p>${step.val}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('path-container').innerHTML = pathHtml;
+            window.scrollTo(0,0);
+        }
+
+        function goHome() {
+            document.getElementById('results-page').style.display = 'none';
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('error-msg').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
